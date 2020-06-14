@@ -56,47 +56,46 @@ def main():
     	buff= 'A' * counter
     	counter+=increment
 	try:
-			try:
-			   socket.setdefaulttimeout(5)		
-			   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			   connect = s.connect((host, port))
-			except socket.gaierror, e:
-	      		   print "Address-related error connecting to server: %s" % e
-			   sys.exit(1)
-	    		except socket.error, e:
-			   print ('[-] Unable to connect to ' + str(host) + ' ,make sure the target IP is listening on port ' + str(port) + "\n[-] Connection error: %s" % e)
-			   sys.exit(1)		
-			if (connected==False):
-			   print ('[+] Connected to host successfully')
-			   connected=True
-			   s.sendall(buff)
-			   print('Fuzzing with %s bytes' % str(counter))
-			   s.recv(1024)
-			else:
-			   s.sendall(buff)
-			   print('Fuzzing with %s bytes' % str(counter))
-			   s.recv(1024)
-			if (counter >= max_buffer):		
-				print ('[!] Failed to fuzz with %s' % (counter + increment) + '\nbuffer has reached maximum pissable bytes to fuzz, try to increase --max_buffer')
-				sys.exit(1)
-			else:
-				None
+		try:
+		   socket.setdefaulttimeout(5)		
+		   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		   connect = s.connect((host, port))
+		except socket.gaierror, e:
+		   print "Address-related error connecting to server: %s" % e
+		   sys.exit(1)
+		except socket.error, e:
+		   print ('[-] Unable to connect to ' + str(host) + ' ,make sure the target IP is listening on port ' + str(port) + "\n[-] Connection error: %s" % e)
+		   sys.exit(1)		
+		if (connected==False):
+		   print ('[+] Connected to host successfully')
+		   connected=True
+		   s.sendall(buff)
+		   print('Fuzzing with %s bytes' % str(counter))
+		   s.recv(1024)
+		else:
+		   s.sendall(buff)
+		   print('Fuzzing with %s bytes' % str(counter))
+		   s.recv(1024)
+		if (counter >= max_buffer):		
+			print ('[!] Failed to fuzz with %s' % (counter + increment) + '\nbuffer has reached maximum pissable bytes to fuzz, try to increase --max_buffer')
+			sys.exit(1)
+		else:
+			None
 	except socket.timeout:
-			if (counter<=100):
-			   print ('[!] Looks like the buffer has already been filled')
-			   sys.exit(1)
-			else:
-			   print('\n[!] Possible overflow detected at %s bytes' % str(counter)) 
-			   proc = subprocess.Popen(['cd /usr/share/metasploit-framework/tools/exploit/; ./pattern_create.rb -l %s' % str(counter)], stdout=subprocess.PIPE, 				   shell=True)
-	 		   (pattern, err) = proc.communicate()
-			   print ('[+] Payload= ' + pattern)
-			   while True:
-				    locateOffset = raw_input('\n[*] Enter the value of the EIP : ')
-				    locateOffset = locateOffset.decode("hex")  
-    		      	            locateOffset = locateOffset[::-1]
-   			            offsetLocation = pattern.find(locateOffset, 0, len(pattern))
-   			            print('\n[!] Exact match found at ' + str(offsetLocation) + '!')
-			            break
+		if (counter<=100):
+		   print ('[!] Looks like the buffer has already been filled')
+		   sys.exit(1)
+		else:
+		   print('\n[!] Possible overflow detected at %s bytes' % str(counter)) 
+		   proc = subprocess.Popen(['cd /usr/share/metasploit-framework/tools/exploit/; ./pattern_create.rb -l %s' % str(counter)], stdout=subprocess.PIPE, 				   shell=True)
+		   (pattern, err) = proc.communicate()
+		   print ('[+] Payload= ' + pattern)
+		   locateOffset = raw_input('\n[*] Enter the value of the EIP : ')
+		   locateOffset = locateOffset.decode("hex")  
+      	           locateOffset = locateOffset[::-1]
+		   offsetLocation = pattern.find(locateOffset, 0, len(pattern))
+		   print('\n[!] Exact match found at ' + str(offsetLocation) + '!')
+		   break
 	s.close()
 	time.sleep(.5)
 

@@ -49,7 +49,7 @@ def main():
     current_time = time.strftime("%H:%M:%S", t)
 
 
-    print ('Starting Fuzzmap at ' + str(current_time))
+    print ('Starting Simple Fuzzer at ' + str(current_time))
     print ('Simple Fuzzer report for ' + str(host))
     
     while counter <= max_buffer:

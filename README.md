@@ -9,7 +9,7 @@ The script will start fuzzing the target starting with 100 bytes and increments 
 ```
 root@Kali:~/SimpleFuzzer# python simplefuzzer.py --target [Host_IP] --port [Port]
 Simple Fuzzer v1.0
-Starting Fuzzmap at 01:56:21
+Starting Simple Fuzzer at 01:56:21
 Simple Fuzzer report for [Host_IP]
 [+] Connected to host successfully
 Fuzzing with 100 bytes

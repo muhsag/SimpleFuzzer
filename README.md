@@ -10,7 +10,7 @@ The script will start fuzzing the target starting with 100 bytes and increments 
 root@Kali:~/SimpleFuzzer# python simplefuzzer.py --target [Host_IP] --port [Port]
 Simple Fuzzer v1.0
 Starting Fuzzmap at 01:56:21
-Simple Fuzzer report for 172.16.252.141
+Simple Fuzzer report for [Host_IP]
 [+] Connected to host successfully
 Fuzzing with 100 bytes
 Fuzzing with 200 bytes

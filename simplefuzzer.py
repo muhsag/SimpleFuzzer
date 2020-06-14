@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+
 # Simple Fuzzer v1.0
 # Usage: simplefuzzer.py --target [TARGET] --port [PORT]
 #
@@ -14,6 +15,7 @@
 # scripts will run on <= Python 2.7
 # 
 # Devoleped by Muhannad
+
 
 import time
 import socket
@@ -53,8 +55,6 @@ def main():
     while counter <= max_buffer:
     	buff= 'A' * counter
     	counter+=increment
-        #print(len(buff))
-	#for fuzz in buff: 
 	try:
 			try:
 			   socket.setdefaulttimeout(5)		
@@ -69,7 +69,6 @@ def main():
 			if (connected==False):
 			   print ('[+] Connected to host successfully')
 			   connected=True
-			#s.sendall(bytes((fuzz), encoding='utf8'))
 			   s.sendall(buff)
 			   print('Fuzzing with %s bytes' % str(counter))
 			   s.recv(1024)
@@ -91,17 +90,9 @@ def main():
 			   proc = subprocess.Popen(['cd /usr/share/metasploit-framework/tools/exploit/; ./pattern_create.rb -l %s' % str(counter)], stdout=subprocess.PIPE, 				   shell=True)
 	 		   (pattern, err) = proc.communicate()
 			   print ('[+] Payload= ' + pattern)
-
-			   #if statment if value is wrong
 			   while True:
-				try:
 				    locateOffset = raw_input('\n[*] Enter the value of the EIP : ')
 				    locateOffset = locateOffset.decode("hex")  
-				except ValueError:
-       				    print("Sorry, I didn't understand that.")
-        #better try again... Return to the start of the loop
-       				    continue
-    				else:
     		      	            locateOffset = locateOffset[::-1]
    			            offsetLocation = pattern.find(locateOffset, 0, len(pattern))
    			            print('\n[!] Exact match found at ' + str(offsetLocation) + '!')
